@@ -1,0 +1,19 @@
+version: "3.5"
+services: 
+  sqlserver:
+    image: microsoft/mssql-server-linux:2017-latest
+    container_name: sqlserver
+    hostname: sqlserver
+    ports:
+      - 1433:1433
+    volumes: 
+      - ./init-data:/init-data
+      - ./start-up.sh:/start-up.sh
+      - mssql-db:/var/opt/mssql
+    env_file: 
+      - common.env
+    command: "sh -c '/start-up.sh & /opt/mssql/bin/sqlservr;'"
+
+volumes: 
+  mssql-db:
+    driver: local
